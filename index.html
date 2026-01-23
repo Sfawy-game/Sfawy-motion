@@ -11,51 +11,51 @@
         :root { --primary: #fe2c55; --secondary: #25f4ee; --bg: #0f0f0f; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
         
-        /* واجهة القفل */
-        .lock-card { width: 300px; background: #1e1e1e; padding: 30px; border-radius: 25px; text-align: center; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .btn { display: block; width: 100%; padding: 14px; margin: 12px 0; border-radius: 15px; font-weight: bold; cursor: pointer; text-decoration: none; border: none; transition: 0.3s; font-size: 14px; }
+        .lock-card { width: 300px; background: #1e1e1e; padding: 30px; border-radius: 25px; text-align: center; border: 1px solid #333; }
+        .btn { display: block; width: 100%; padding: 14px; margin: 12px 0; border-radius: 15px; font-weight: bold; cursor: pointer; text-decoration: none; border: none; transition: 0.3s; }
         .follow { background: white; color: black; }
         .enter { background: #333; color: #777; cursor: not-allowed; }
-        .enter.active { background: var(--primary); color: white; cursor: pointer; box-shadow: 0 0 20px rgba(254, 44, 85, 0.4); }
+        .enter.active { background: var(--primary); color: white; cursor: pointer; }
 
-        /* شاشة الانتظار والربح */
-        #ad-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; flex-direction: column; justify-content: center; align-items: center; }
-        #timer { font-size: 60px; font-weight: bold; color: var(--primary); margin: 20px 0; text-shadow: 0 0 15px var(--primary); }
-        .ad-container { width: 300px; height: 250px; background: #111; border: 1px dashed #444; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #ad-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        #timer { font-size: 60px; font-weight: bold; color: var(--primary); margin: 20px 0; }
+        
+        /* نافذة صورة الكود التي تظهر بعد الإعلان */
+        #code-result { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #222; padding: 20px; border-radius: 20px; z-index: 3000; border: 2px solid var(--secondary); text-align: center; width: 80%; max-width: 300px; }
+        #code-result img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
 
-        /* معرض الفيديوهات */
         #main-content { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); overflow-y: auto; z-index: 100; }
-        .header { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 15px; text-align: center; border-bottom: 1px solid #222; z-index: 101; font-weight: bold; color: var(--secondary); }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 70px 10px 20px; }
-        .v-card { aspect-ratio: 9/16; background: #000; border-radius: 15px; overflow: hidden; position: relative; border: 1px solid #222; }
-        .copy-btn { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); color: white; border: none; padding: 6px 12px; border-radius: 10px; font-size: 10px; cursor: pointer; width: 80%; }
+        .header { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 15px; text-align: center; border-bottom: 1px solid #222; z-index: 101; color: var(--secondary); font-weight: bold; }
+        
+        .grid { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 80px 10px 30px; }
+        .v-card { width: 95%; max-width: 450px; background: #000; border-radius: 15px; overflow: hidden; border: 1px solid #222; }
+        video { width: 100%; height: auto; display: block; }
+        
+        .get-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; font-size: 16px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="lock-card" id="lock-screen">
-        <div style="font-size: 40px; margin-bottom: 10px;">🔒</div>
-        <h2 style="margin: 0; font-size: 18px;">لوحة أكواد Sfawy</h2>
-        <p style="font-size: 12px; color: #aaa; margin-bottom: 20px;">يجب متابعة الحساب لفتح القسم</p>
-        
+        <h2>لوحة Sfawy</h2>
         <a href="https://www.tiktok.com/@v3_rc" target="_blank" class="btn follow" onclick="unlockNext()">متابعة @v3_rc</a>
-        <button id="entry-btn" class="btn enter" disabled onclick="startAdProcess()">دخول للأكواد</button>
+        <button id="entry-btn" class="btn enter" disabled onclick="showContentImmediately()">دخول للأكواد</button>
     </div>
 
     <div id="ad-overlay">
-        <p style="font-size: 14px; color: #888;">جاري استخراج الأكواد، انتظر قليلاً...</p>
+        <p>جاري تحضير الكود الخاص بك...</p>
         <div id="timer">30</div>
-        
         <div class="ad-container">
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:300px;height:250px"
-                 data-ad-client="ca-pub-4660461160504958"
-                 data-ad-slot="9890453291"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+            <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" 
+                 data-ad-client="ca-pub-4660461160504958" data-ad-slot="9890453291"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
-        <p style="font-size: 10px; color: #444; margin-top: 20px;">AdSense Monetization Active</p>
+    </div>
+
+    <div id="code-result">
+        <h3 style="color: var(--secondary);">كود الموشن الخاص بك</h3>
+        <img id="result-img" src="" alt="كود الموشن">
+        <button class="btn follow" onclick="closeCode()">إغلاق</button>
     </div>
 
     <div id="main-content">
@@ -64,7 +64,6 @@
     </div>
 
     <script>
-        // تفعيل زر الدخول بعد المتابعة
         function unlockNext() {
             setTimeout(() => {
                 const btn = document.getElementById('entry-btn');
@@ -74,8 +73,29 @@
             }, 3000);
         }
 
-        // تشغيل العداد والربح
-        function startAdProcess() {
+        function showContentImmediately() {
+            document.getElementById('lock-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            renderVideos();
+        }
+
+        function renderVideos() {
+            const grid = document.getElementById('video-grid');
+            grid.innerHTML = ""; 
+            for (let i = 1; i <= 5; i++) {
+                grid.innerHTML += `
+                    <div class="v-card">
+                        <video controls preload="none">
+                            <source src="video_${i}.mp4" type="video/mp4">
+                        </video>
+                        <button class="get-btn" onclick="startRewardProcess(${i})">الحصول على الكود</button>
+                    </div>
+                `;
+            }
+        }
+
+        // تشغيل الإعلان والعداد عند الضغط على "الحصول على الكود"
+        function startRewardProcess(id) {
             document.getElementById('ad-overlay').style.display = 'flex';
             let timeLeft = 30;
             const timerEl = document.getElementById('timer');
@@ -85,37 +105,20 @@
                 timerEl.innerText = timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(countdown);
-                    showContent();
+                    finishAd(id);
                 }
             }, 1000);
         }
 
-        function showContent() {
+        function finishAd(id) {
             document.getElementById('ad-overlay').style.display = 'none';
-            document.getElementById('lock-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            renderVideos();
+            // هنا تضع اسم الصورة التي تحتوي على الكود (مثلاً code_1.jpg)
+            document.getElementById('result-img').src = "code_" + id + ".jpg"; 
+            document.getElementById('code-result').style.display = 'block';
         }
 
-        // عرض الـ 100 فيديو
-        function renderVideos() {
-            const grid = document.getElementById('video-grid');
-            grid.innerHTML = ""; 
-            for (let i = 1; i <= 100; i++) {
-                grid.innerHTML += `
-                    <div class="v-card">
-                        <video muted loop onclick="this.play()" style="width:100%;height:100%;object-fit:cover;">
-                            <source src="video_${i}.mp4" type="video/mp4">
-                        </video>
-                        <button class="copy-btn" onclick="copyCode(${i})">نسخ كود الموشن</button>
-                    </div>
-                `;
-            }
-        }
-
-        function copyCode(id) {
-            const codes = ["sfw-01-rc", "sfw-02-rc", "sfw-03-rc"]; // يمكنك وضع قائمة أكوادك هنا
-            alert("تم نسخ الكود الخاص بالفيديو رقم " + id);
+        function closeCode() {
+            document.getElementById('code-result').style.display = 'none';
         }
     </script>
 </body>
